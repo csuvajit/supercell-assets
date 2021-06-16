@@ -1,6 +1,7 @@
-name: CI
+name: Vercel
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
@@ -8,11 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Clone Repo
-        run: git clone https://github.com/Statscell/clash-assets.git
+      - name: Clone Repos
+        run: |
+          git clone https://github.com/Statscell/clash-assets.git
+          git clone https://github.com/Statscell/clash-of-clans-data.git
 
-      - name: Run a multi-line script
-        run: cp clash-assets/**/*.png public
+      - name: Copy Files
+        run: |
+          cp clash-assets/* -r public/assets
+          cp clash-of-clans-data/output/* -r public/raw
         
       - uses: amondnet/vercel-action@v20
         with:
